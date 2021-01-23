@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+    Welcome, {{ name }}!
+</h1>
+
+{% if is_set_favorite_drink %}
+<h2 class="subtitle">
+    Your favorite drink is {{ favorite_drink }}.
+</h2>
+{% endif %}
+
+<a class="button is-link is-outlined" href="{{ url_for('main.changeinfo') }}">Change Info</a>
+
+{% endblock %}

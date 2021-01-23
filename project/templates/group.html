@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+    {{ group_name }}
+</h1>
+
+<h2 class="subtitle">
+    Welcome, {{ name  }}!
+</h2>
+
+{% if is_set_favorite_drink %}
+<h2 class="subtitle">
+    Default Drink: {{ favorite_drink }}.
+</h2>
+{% endif %}
+
+<button id="returnMyGroups" class="button is-block is-info is-large is-fullwidth" >Back</button>
+
+<script type="text/javascript">
+    document.getElementById("returnMyGroups").onclick = function () {
+        location.href = "/mygroups";
+    };
+</script>
+
+{% endblock %}
+
