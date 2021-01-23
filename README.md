@@ -2,10 +2,10 @@
 Super Shopping or something
 
 ### Tools
-Flask - Python webserver stuff
-SQL-Alchemy - SQL Database management
-Bulma - CSS stuff
-Jinja - HTML Variable Processing/Rendering
+- Flask - Python webserver stuff
+- SQL-Alchemy - SQL Database management
+- Bulma - CSS stuff
+- Jinja - HTML Variable Processing/Rendering
 
 ### Routes
 - `/profile` - Default user homepage
