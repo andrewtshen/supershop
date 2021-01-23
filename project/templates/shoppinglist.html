@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Supershop</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script type="text/javascript"> 
+      function CheckItem(val){
+        var element=document.getElementById('Item');
+        if(val=="Choose an Item"||val=="other")
+          element.style.display='block';
+        else
+          element.style.display='none';
+      }
+
+      function UseAutoDate(val){
+        var element=document.getElementById('AD')
+        var element1=document.getElementById('ExpirationDate')
+        if (val=="Yes") {
+          element.style.display='block';
+          element1.style.display='none';
+        }
+        if (val=="No") {
+          element.style.display="none";
+          element1.style.display='block';
+        }
+      }
+    </script>
+  </head>
+  <body>
+  <section class="hero is-primary is-fullheight">
+    <div class="header has-text-centered has-text-weight-bold">
+      <h1><strong>Supershop</strong></h1>
+    </div>
+
+
+    <div>
+    <h1 class="has-text-centered is-size-1"><strong>Shopping List</strong></h1>
+    <table class="table is-bordered">
+      <thead>
+        <tr>
+          <th>Quantity</th>
+          <th>Item</th>
+          <th>Expiration Date</th>
+          <th>Add to Inventory</th>
+          <th>Edit</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>3</td>
+          <td>Apple</td>
+          <td class="has-text-centered">11/12/12</td>
+          <td><div class="has-text-centered"><button class="button is-primary">Add</button></div></td>
+          <td><div class="has-text-centered"><button class="button is-primary">Edit</button></div></td>
+          <td><div class="has-text-centered"><button class="button is-primary">Remove</button></div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+    <div>
+    <h1 class="has-text-centered is-size-1"><strong>Add New Item</strong></h1>
+
+    <div class="field">
+      <label class="label ">Item Name</label>
+      <div class="select is-medium">
+        <select name="Item" onchange='CheckItem(this.value)'>
+          <option>Choose an Item</option>
+          <option value=apple>Apple</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div>
+        <input class="input" type="text" name="Item" id="Item" placeholder="Item Name" style="display:none; "/>
+      </div>
+    </div>
+
+    <div class="control">
+      <label class="label">Use Automatic Expiration Date</label>
+      <label class="radio">
+        <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="Yes">
+        Yes
+      </label>
+      <label class="radio">
+        <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="No">
+        No
+      </label>
+    </div>
+
+    <div>
+      <p id="AD" style="display:none;">Expiration Date: 11/12/13</p>
+    </div>
+
+    <div>
+      <input type="date" name="Expiration Date" id="ExpirationDate" style="display:none; "/>
+    </div>
+
+      <div>
+        <button class="button is-primary is-light">Add</button>
+      </div>
+    </div>
+  </div>
+
+  </section>
+  </body>
+</html>
