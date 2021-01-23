@@ -10,14 +10,3 @@ class User(UserMixin, db.Model):
     favorite_drink = db.Column(db.String(1000), unique=False, default="")
     is_set_favorite_drink = db.Column(db.Boolean, unique=False, default=False)
 
-class User_Group(db.Model):
-    __bind_key__ = "user_group"
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(100), unique=False)
-    group_id = db.Column(db.Integer, unique=False)
-
-class Group(db.Model):
-    __bind_key__ = "group"
-    group_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=False)
-

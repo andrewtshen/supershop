@@ -12,8 +12,6 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     app.config['SQLALCHEMY_BINDS'] = {
             'user': 'sqlite:///user.sqlite',
-            'group': 'sqlite:///groups_db.sqlite',
-            'user_group': 'sqlite:///user_group_db.sqlite',
             }    
     db.init_app(app)
     

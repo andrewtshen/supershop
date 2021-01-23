@@ -22,11 +22,6 @@
                                 Home
                             </a>
                             {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('main.mygroups') }}" class="navbar-item">
-                                My Groups
-                            </a>
-                            {% endif %}
-                            {% if current_user.is_authenticated %}
                             <a href="{{ url_for('main.profile') }}" class="navbar-item">
                                 Profile
                             </a>
