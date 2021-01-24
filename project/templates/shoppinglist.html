@@ -35,6 +35,23 @@
     }
   }
 
+  function CreateForm(val, action) {
+    var form = document.createElement("form");
+    var element1=document.getElementById(val + '1');
+    element1.name="quantity";
+    var element2=document.getElementById(val + '2');
+    element2.name="name";
+    var element3=document.getElementById(val + '3');
+    element3.name="expirationDate";
+    form.method="POST";
+    form.action=action;
+    form.appendChild(element1);
+    form.appendChild(element2);
+    form.appendChild(element3);
+    document.body.appendChild(form);
+    form.submit()
+  }
+
   function EditValues(val) {
     var element1=document.getElementById(val + '1');
     var element2=document.getElementById(val + '2');
@@ -42,6 +59,10 @@
     element1.readOnly = !element1.readOnly;
     element2.readOnly = !element2.readOnly;
     element3.readOnly = !element3.readOnly;
+    if (!element1.readOnly) {
+      var element4=document.getElementById(val + '4');
+      element4.style.display="block"
+    }
   }
 </script>
 
@@ -86,6 +107,7 @@
       </form>
       <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='EditValues(this.value);'>Edit</button></div></td>
       <td><div class="has-text-centered"><input type="submit" class="button is-primary" value="Remove"></div></td>
+      <td><div class="has-text-centered"><button class="button is-primary" id="{{item.name}}4" value="{{item.name}}" style="display:none;" onclick='CreateForm(this.value, "/shoppinglist/edit");'>Done</button></div></td>
     </tr>
     {% endfor %}
   </tbody>
