@@ -89,11 +89,10 @@ def shoppinglist_remove():
 @login_required
 def shoppinglist_addtoinventory():
     name = request.form.get("name")
-    name = request.form.get("quantity")
+    quantity = request.form.get("quantity")
     for val in firebase_db.child("shoppinglists/"+str(current_user.id)+"/items").get().val():
         if firebase_db.child("shoppinglists/"+str(current_user.id)+"/items/"+val).get().val()['name'] == name:
             firebase_db.child("shoppinglists/"+str(current_user.id)+"/items/"+val).remove()
-
             if not firebase_db.child("inventories/"+str(current_user.id)).get().val():
                 firebase_db.child("inventories/"+str(current_user.id)).push(data={"owner": current_user.id})
 
