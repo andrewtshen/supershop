@@ -141,7 +141,7 @@ def inventory():
             url_for('main.inventory')
             )
 
-@main.route('/inventories/edit', methods=['POST'])
+@main.route('/inventory/edit', methods=['POST'])
 @login_required
 def inventory_edit():
     old_name = request.form.get("hidden")
@@ -152,6 +152,8 @@ def inventory_edit():
             firebase_db.child("inventories/"+str(current_user.id)+"/items/"+val).update({
                 "name": new_name,
                 "quantity": request.form.get("quantity"),
+                "expirationDate": request.form.get("expirationDate"),
+                "datePurchased": request.form.get("datePurchased"),
             })
     return redirect(
         url_for('main.inventory')
