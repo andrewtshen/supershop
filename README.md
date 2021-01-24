@@ -18,3 +18,23 @@ Super Shopping or something
 - Export to meal planner website
 - Calender reminders
 - Nutritional Data (in inventory/shopping list)
+
+### Data Format
+```
+json file format
+
+data = {
+  "shoppinglist": {
+    item: {
+      "name": null,
+      "quantity": null,
+      "expirationDate": 20210123,
+    },
+    item1: ...
+  }
+  "inventory": {
+    "item": ...
+    "item1": ...
+  }
+}
+```
