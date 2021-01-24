@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+<!DOCTYPE html> <!--Make the inputs required -->
 <html>
   <style>
     .table {
@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Supershop</title>
+    <title>Super shop</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <script type="text/javascript"> 
       function CheckItem(val){
@@ -45,12 +45,50 @@
     </script>
   </head>
   <body>
-  <section class="hero is-primary is-fullheight">
-    <div class="header has-text-centered has-text-weight-bold">
-      <h1><strong>Supershop</strong></h1>
-    </div>
 
-    <h1>{{ shoppinglist }}</h1>
+  <section class="hero is-primary is-fullheight">
+    <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+
+                    <div id="navbarMenuHeroA" class="navbar-menu">
+                        <div class="navbar-end">
+                            <a href="{{ url_for('main.index') }}" class="navbar-item">
+                                Home
+                            </a>
+                            {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('main.profile') }}" class="navbar-item">
+                                Profile
+                            </a>
+                            {% endif %}
+
+                            {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('main.shoppinglist') }}" class="navbar-item">
+                                My Shopping List
+                            </a>
+                            {% endif %}
+
+                            {% if not current_user.is_authenticated %}
+                            <a href="{{ url_for('auth.login') }}" class="navbar-item">
+                                Login
+                            </a>
+                            <a href="{{ url_for('auth.signup') }}" class="navbar-item">
+                                Sign Up
+                            </a>
+                            {% endif %}
+
+                            {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                                Logout
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+
     <div>
     <h1 class="has-text-centered is-size-1"><strong>Shopping List</strong></h1>
     <table class="table is-bordered" id="ItemTable">
@@ -75,7 +113,6 @@
           <td><div class="has-text-centered"><button class="button is-primary" value="apple" onclick='EditValues(this.value);'>Edit</button></div></td>
           <td><div class="has-text-centered"><button class="button is-primary">Remove</button></div></td>
         </tr>
-
         {% for item in shoppinglist %}
         <tr>
           <form action="/inventory" method="POST">

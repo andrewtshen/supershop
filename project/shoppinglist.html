@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-<html>
+{% block content %}
   <style>
     .table {
       margin-left:auto;
@@ -50,7 +50,7 @@
       <h1><strong>Supershop</strong></h1>
     </div>
 
-    <h1>{{ shoppinglist }}</h1>
+
     <div>
     <h1 class="has-text-centered is-size-1"><strong>Shopping List</strong></h1>
     <table class="table is-bordered" id="ItemTable">
@@ -75,7 +75,6 @@
           <td><div class="has-text-centered"><button class="button is-primary" value="apple" onclick='EditValues(this.value);'>Edit</button></div></td>
           <td><div class="has-text-centered"><button class="button is-primary">Remove</button></div></td>
         </tr>
-
         {% for item in shoppinglist %}
         <tr>
           <form action="/inventory" method="POST">
@@ -146,4 +145,4 @@
 
   </section>
   </body>
-</html>
+{% endblock %}
