@@ -1,5 +1,3 @@
-import json
-
 from flask import Blueprint, render_template, request, redirect, url_for
 from sqlalchemy import update, delete
 from flask_login import login_required, current_user
@@ -60,6 +58,15 @@ def shoppinglist():
         return redirect(
             url_for('main.shoppinglist')
             )
+
+@main.route('/shoppinglist/edit', methods=['POST'])
+@login_required
+def shoppinglist_edit():
+    update_item
+    shoppinglist_path = '/shoppinglists/'+str(current_user.id)
+    shoppinglist = firebase.get(shoppinglist_path)
+    if request.method == 'POST':
+        firebase.post(shoppinglist_path, data=update_item)
 
 @main.route('/inventory', methods=['GET', 'POST'])
 @login_required
