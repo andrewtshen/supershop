@@ -3,9 +3,15 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+# Temporarily replace quote function
+def noquote(s):
+    return s
+pyrebase.pyrebase.quote = noquote
+
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
 
+# TODO: Find out wht the APIKey is
 config = {
   "apiKey": "apiKey",
   "authDomain": "supershop-53157.firebaseapp.com",
