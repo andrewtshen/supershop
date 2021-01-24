@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, send_from_directory
 from sqlalchemy import update, delete
 from flask_login import login_required, current_user
 from datetime import datetime
+import os
 
 from . import db
 from . import firebase, firebase_db
@@ -20,6 +21,11 @@ def profile():
             name=current_user.firstName,
             id=current_user.id,
             )
+
+@main.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(main.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @main.route('/changeinfo', methods=['GET', 'POST'])
 @login_required
