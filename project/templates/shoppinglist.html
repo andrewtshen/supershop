@@ -49,9 +49,9 @@
 <table class="table is-bordered" id="ItemTable">
   <thead>
     <tr>
+      <th>Purchased</th>
       <th>Quantity</th>
       <th>Item</th>
-      <th>Add to Inventory</th>
       <th>Save Changes</th>
       <th>Remove</th>
     </tr>
@@ -60,9 +60,9 @@
     <tr>
     {% for key, item in shoppinglist.items() %}
     <tr>
+      <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='CreateForm(this.value, "/shoppinglist/addtoinventory");'>Add</button></div></td>
       <td><input class="input" type="number" step="1" min="0" max="100" value="{{item.quantity}}" id="{{item.name}}1"></td>
       <td><input class="input" type="text" value="{{item.name}}" id="{{item.name}}2"></td>
-      <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='CreateForm(this.value, "/shoppinglist/addtoinventory");'>Add</button></div></td>
       <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='CreateForm(this.value, "/shoppinglist/edit");'>Save</button></div></td>
       <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='CreateForm(this.value, "/shoppinglist/remove");'>Remove</button></div></td>
       <input type="hidden" id="{{item.name}}3" name="hidden" value="{{item.name}}">
