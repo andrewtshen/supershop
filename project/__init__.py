@@ -1,11 +1,20 @@
+import pyrebase
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from firebase import firebase
 
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
-firebase = firebase.FirebaseApplication('https://supershop-53157-default-rtdb.firebaseio.com/', None)
+
+config = {
+  "apiKey": "apiKey",
+  "authDomain": "supershop-53157.firebaseapp.com",
+  "databaseURL": "https://supershop-53157-default-rtdb.firebaseio.com/",
+  "storageBucket": "supershop-53157.web.app",
+}
+
+firebase = pyrebase.initialize_app(config)
+firebase_db = firebase.database()
 
 def create_app():
     app = Flask(__name__)

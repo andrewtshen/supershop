@@ -3,7 +3,7 @@ from sqlalchemy import update, delete
 from flask_login import login_required, current_user
 
 from . import db
-from . import firebase
+from . import firebase, firebase_db
 
 main = Blueprint('main', __name__)
 
@@ -28,72 +28,69 @@ def changeinfo():
 @main.route('/shoppinglist', methods=['GET', 'POST'])
 @login_required
 def shoppinglist():
-    shoppinglist_path = '/shoppinglists/'+str(current_user.id)
+    items_fb = firebase_db.child("shoppinglists/"+str(current_user.id)+"/items")
+    items = items_fb.get()
     if request.method == 'GET':
-        shoppinglist = firebase.get(shoppinglist_path+'/items', None)
-
         # If shoppinglist exists, display the current contents
-        if shoppinglist:
+        if items.val():
             return render_template(
                 'shoppinglist.html',
-                shoppinglist=shoppinglist,
+                shoppinglist=items.val(),
                 )
         else:
             return render_template(
-                'shoppinglist.html'
+                'shoppinglist.html',
+                shoppinglist={},
                 )
     else:
-        shoppinglist = firebase.get(shoppinglist_path, None)
         new_item = {
             "name": request.form.get("name"),
             "quantity": request.form.get("quantity"),
             "expirationDate": request.form.get("expirationDate"),
         }
         # Make shoppinglist if it does not exist
-        if not shoppinglist:
-            firebase.post(shoppinglist_path, data={"owner": current_user.id})
+        if not items.val():
+            firebase_db.child("shoppinglists/"+str(current_user.id)).push(data={"owner": current_user.id})
 
-        firebase.post(shoppinglist_path+'/items', data=new_item)
+        items_fb = firebase_db.child("shoppinglists/"+str(current_user.id)+"/items")
+        items_fb.push(data=new_item)
         return redirect(
             url_for('main.shoppinglist')
             )
 
-@main.route('/shoppinglist/edit', methods=['POST'])
-@login_required
-def shoppinglist_edit():
-    update_item
-    shoppinglist_path = '/shoppinglists/'+str(current_user.id)
-    shoppinglist = firebase.get(shoppinglist_path)
-    if request.method == 'POST':
-        firebase.post(shoppinglist_path, data=update_item)
+# @main.route('/shoppinglist/edit', methods=['POST'])
+# @login_required
+# def shoppinglist_edit():
+#     update_item
+#     shoppinglist_path = '/shoppinglists/'+str(current_user.id)
+#     shoppinglist = firebase_db.child("shoppinglists").child(str(current_user.id)).get()
+#     if request.method == 'POST':
+#         firebase_db.child("shoppinglists").push(data=update_item)
 
 @main.route('/inventory', methods=['GET', 'POST'])
 @login_required
 def inventory():
-    inventory_path = '/inventory/'+str(current_user.id)
+    inventory_fb = firebase_db.child("inventory/"+str(current_user.id))
+    inventory = inventory_fb.get()
     if request.method == 'GET':
-        inventory = firebase.get(inventory_path, None)
-
         # If inventory exists, display the current contents
-        if inventory:
+        if inventory.val():
             return render_template(
                 'inventory.html',
-                shoppinglist=shoppinglist,
+                shoppinglist=inventory.val(),
                 )
         else:
             return render_template(
                 'inventory.html',
                 )
     else:
-        inventory = firebase.get(inventory_path, None)
-
         # If inventory exists, add new item to shopping list
         newitem = {
             "name": request.form.get("name"),
             "quantity": request.form.get("quantity"),
             "expirationDate": request.form.get("expirationDate"),
         }
-        firebase.post(inventory, data=newitem)
+        inventory_fb.push(data=newitem)
         return redirect(
             url_for('main.shoppinglist')
             )

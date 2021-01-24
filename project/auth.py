@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
-from . import firebase
+from . import firebase, firebase_db
 
 auth = Blueprint('auth', __name__)
 
@@ -66,7 +66,7 @@ def signup_post():
 
     # add the new user to firebase
     user = User.query.filter_by(email=email).first()
-    firebase.post('/users/'+str(user.id), data=firebase_user)
+    firebase_db.child("users").child(str(user.id)).push(firebase_user)
 
     return redirect(url_for('auth.login'))
 
