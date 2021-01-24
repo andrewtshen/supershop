@@ -28,10 +28,12 @@ def changeinfo():
 @main.route('/shoppinglist', methods=['GET', 'POST'])
 @login_required
 def shoppinglist():
-    personal_shoppinglist = '/shoppinglist/'+str(current_user.id)
+    shoppinglist_path = '/shoppinglists/'+str(current_user.id)
     if request.method == 'GET':
-        shoppinglist = firebase.get(personal_shoppinglist, None)
+        shoppinglist = firebase.get(shoppinglist_path+'/items', None)
 
+        print("DEBUG:", shoppinglist_path+'/items', shoppinglist)
+        # If shoppinglist exists, display the current contents
         if shoppinglist:
             return render_template(
                 'shoppinglist.html',
@@ -42,47 +44,48 @@ def shoppinglist():
                 'shoppinglist.html'
                 )
     else:
+        shoppinglist = firebase.get(shoppinglist_path, None)
+        new_item = {
+            "name": request.form.get("name"),
+            "quantity": request.form.get("quantity"),
+            "expirationDate": request.form.get("expirationDate"),
+        }
+        # Make shoppinglist if it does not exist
+        if not shoppinglist:
+            firebase.post(shoppinglist_path, data={"owner": current_user.id})
+
+        firebase.post(shoppinglist_path+'/items', data=new_item)
+        return redirect(
+            url_for('main.shoppinglist')
+            )
+
+@main.route('/inventory', methods=['GET', 'POST'])
+@login_required
+def inventory():
+    inventory_path = '/inventory/'+str(current_user.id)
+    if request.method == 'GET':
+        inventory = firebase.get(inventory_path, None)
+
+        # If inventory exists, display the current contents
+        if inventory:
+            return render_template(
+                'inventory.html',
+                shoppinglist=shoppinglist,
+                )
+        else:
+            return render_template(
+                'inventory.html',
+                )
+    else:
+        inventory = firebase.get(inventory_path, None)
+
+        # If inventory exists, add new item to shopping list
         newitem = {
             "name": request.form.get("name"),
             "quantity": request.form.get("quantity"),
             "expirationDate": request.form.get("expirationDate"),
         }
-        ret = firebase.get(personal_shoppinglist, None)
-        firebase.post(personal_shoppinglist, data=newitem)
+        firebase.post(inventory, data=newitem)
         return redirect(
             url_for('main.shoppinglist')
             )
-
-
-    # if request.method == 'GET':
-    #     ret = firebase.get('/1', None)
-    #     if ret:
-    #         return ret
-    #     else:
-    #         return "Shopping list not found"
-    # else:
-    #     itemdata = dict(request.form)
-    #     isPurchased = False
-    #     name = itemdata.name
-    #     quantity = itemdata.quantity
-    #     newitem = {
-    #         "name": name,
-    #         "isPurchased": isPurchased,
-    #         "quantity": quantity,
-    #     }
-    #     firebase.push('/1', newitem)
-
-@main.route('/test')
-@login_required
-def test():
-    isPurchased = False
-    name = "Oranges"
-    quantity = 8
-    newitem = {
-        "name": name,
-        "isPurchased": isPurchased,
-        "quantity": quantity,
-    }
-    ret = firebase.post('shoppinglist/item', data=newitem)
-    return ret
-
