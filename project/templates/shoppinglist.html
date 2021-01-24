@@ -60,9 +60,9 @@
     {% for key, item in shoppinglist.items() %}
     <tr>
       <form action="/inventory" method="POST">
-      <td><input class="input" type="text" value="{{item.quantity}}" id="{{item.name}}1" readonly></td>
-      <td><input class="input" type="text" value="{{item.name}}" id="{{item.name}}2" readonly></td>
-      <td class="has-text-centered"><input class="input" type="text" value="{{item.expirationDate}}" id="{{item.name}}3" readonly></td>
+      <td><input class="input" type="text" value="{{ item.quantity }}" id="{{ item.name }}1" readonly></td>
+      <td><input class="input" type="text" value="{{ item.name }}" id="{{ item.name }}2" readonly></td>
+      <td class="has-text-centered"><input class="input" type="text" value="{{ item.expirationDate }}" id="{{item.name}}3" readonly></td>
       <td><div class="has-text-centered"><input type="submit" class="button is-primary" value="Add"></div></td>
       </form>
       <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='EditValues(this.value);'>Edit</button></div></td>
