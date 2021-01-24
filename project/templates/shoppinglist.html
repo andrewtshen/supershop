@@ -1,13 +1,21 @@
+
 {% extends "base.html" %}
 
 {% block content %}
 <script type="text/javascript">
   function CheckItem(val){
     var element=document.getElementById('Item');
-    if(val=="Choose an Item"||val=="other")
+    var element1=document.getElementById('regItem');
+    if(val=="Choose an Item"||val=="Other") {
       element.style.display='block';
-    else
+      element.name="name";
+      element1.name="";
+    }
+    else {
       element.style.display='none';
+      element.name=""
+      element1.name='name';
+    }
   }
 
   function UseAutoDate(val){
@@ -15,11 +23,15 @@
     var element1=document.getElementById('ExpirationDate')
     if (val=="Yes") {
       element.style.display='block';
+      element.name="expirationDate";
       element1.style.display='none';
+      element1.name="";
     }
     if (val=="No") {
       element.style.display="none";
+      element.name="";
       element1.style.display='block';
+      element1.name="expirationDate";
     }
   }
 
@@ -32,6 +44,13 @@
     element3.readOnly = !element3.readOnly;
   }
 </script>
+
+<style>
+    .table {
+      margin-left:auto;
+      margin-right:auto;
+    }
+</style>
 
 <div>
 <h1 class="has-text-centered is-size-1"><strong>Shopping List</strong></h1>
@@ -81,10 +100,10 @@
   <div class="field">
     <label class="label">Item Name</label>
     <div class="select is-medium">
-      <select name="name" onchange='CheckItem(this.value)'>
+      <select name="name" id="regItem" onchange='CheckItem(this.value)'>
         <option>Choose an Item</option>
         <option value=apple>Apple</option>
-        <option value="other">Other</option>
+        <option value="Other">Other</option>
       </select>
     </div>
     <div>
