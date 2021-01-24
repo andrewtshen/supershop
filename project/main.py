@@ -34,7 +34,6 @@ def shoppinglist():
 
         # If shoppinglist exists, display the current contents
         if shoppinglist:
-            print("DEBUG:", shoppinglist_path+'/items', json.dumps(shoppinglist))
             return render_template(
                 'shoppinglist.html',
                 shoppinglist=shoppinglist,
