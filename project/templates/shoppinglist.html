@@ -45,7 +45,7 @@
 </style>
 
 <div>
-<h1 class="has-text-centered is-size-1"><strong>Shopping List</strong></h1>
+<h1 class="has-text-centered has-text-black is-size-1"><strong>Shopping List</strong></h1>
 <table class="table is-bordered" id="ItemTable">
   <thead>
     <tr>
@@ -76,7 +76,7 @@
 
 
 <div>
-  <h1 class="has-text-centered is-size-1"><strong>Add New Item</strong></h1>
+  <h1 class="has-text-centered has-text-black is-size-1"><strong>Add New Item</strong></h1>
   <form action="/shoppinglist" method="POST">
 
   <div class="field">
@@ -88,18 +88,18 @@
         <option value="Other">Other</option>
       </select>
     </div>
-    <div>
+    <div class="column is-three-fifths is-offset-one-fifth">
       <input class="input" type="text" name="name" id="Item" placeholder="Item Name" style="display:none; "/>
     </div>
   </div>
 
-  <div class="field">
+  <div class="field column is-one-fifth is-offset-two-fifths">
     <label class="label" for="Quantity">Quantity</label>
     <input class="input" type="number" name= "quantity" id="Quantity" step="1" min="0" max="100">
   </div>
 
   <div>
-    <input type="submit" class="button is-primary is-black" value="Add">
+    <input type="submit" class="button is-black is-outlined" value="Add">
   </div>
   </form>
 </div>
