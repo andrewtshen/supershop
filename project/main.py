@@ -49,7 +49,7 @@ def shoppinglist():
         ret = firebase.get('/shoppinglist/'+str(current_user.id), None)
         firebase.post('shoppinglist/'+str(current_user.id), data=newitem)
         return redirect(
-            url_for('main.profile')
+            url_for('main.shoppinglist')
             )
 
 
