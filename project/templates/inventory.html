@@ -24,10 +24,19 @@
     element1.name="quantity";
     var element2=document.getElementById(val + '2');
     element2.name="name";
+    var element3=document.getElementById(val + '3');
+    element3.name="expirationDate";
+    var element4=document.getElementById(val + '4');
+    element4.name="datePurchased";
+    var element5=document.getElementById(val + '5');
+    element5.name="hidden";
     form.method="POST";
     form.action=action;
     form.appendChild(element1);
     form.appendChild(element2);
+    form.appendChild(element3);
+    form.appendChild(element4);
+    form.appendChild(element5);
     document.body.appendChild(form);
     form.submit()
   }
@@ -72,7 +81,7 @@
 </style>
 
 <div>
-<h1 class="has-text-centered has-text-black is-size-1"><strong>Shopping List</strong></h1>
+<h1 class="has-text-centered has-text-black is-size-1"><strong>Inventory</strong></h1>
 <table class="table is-bordered" id="ItemTable">
   <thead>
     <tr>
@@ -84,7 +93,19 @@
       <th>Remove</th>
     </tr>
   </thead>
-  <tbody></tbody> <!--Add jinja Table here -->
+  <tbody>
+    {% for key, item in inventory.items() %}
+    <tr>
+      <td><input class="input" type="number" step="1" min="0" max="100" value="{{item.quantity}}" id="{{item.name}}1"></td>
+      <td><input class="input" type="text" value="{{item.name}}" id="{{item.name}}2"></td>
+      <td><input class="input" type="date" value="{{item.expirationDate}}" id="{{item.name}}3"></td>
+      <td><input class="input" type="date" value="{{item.datePurchased}}" id="{{item.name}}4"></td>
+      <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='CreateForm(this.value, "/inventory/edit");'>Save</button></div></td>
+      <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='CreateForm(this.value, "/inventory/remove");'>Remove</button></div></td>
+      <input type="hidden" id="{{item.name}}5" name="hidden" value="{{item.name}}">
+    </tr>
+    {% endfor %}
+  </tbody> <!--Add jinja Table here -->
 </table>
 </div>
 
