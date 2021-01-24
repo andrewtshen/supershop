@@ -1,5 +1,11 @@
-<!DOCTYPE html> <!--Make the inputs required -->
+{% extends "base.html" %}
 <html>
+  <style>
+    .table {
+      margin-left:auto;
+      margin-right:auto;
+    }
+  </style>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -91,7 +97,7 @@
     <form action="/shoppinglist" method="POST">
 
     <div class="field">
-      <label class="label ">Item Name</label>
+      <label class="label has-text-centered">Item Name</label>
       <div class="select is-medium">
         <select name="Item" onchange='CheckItem(this.value)'>
           <option>Choose an Item</option>
