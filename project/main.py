@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from datetime import datetime
 import os
 
-from app import db, firebase, firebase_db
+from .app import db, firebase, firebase_db
 
 main = Blueprint('main', __name__)
 
