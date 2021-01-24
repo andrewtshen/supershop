@@ -1,20 +1,51 @@
-<!DOCTYPE html> 
-<html>
-  <head>
-  	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Supershop</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <script type="text/javascript"> 
-      function CheckItem(val){
-        var element=document.getElementById('Item');
-        if(val=="Choose an Item"||val=="other")
-          element.style.display='block';
-        else
-          element.style.display='none';
-      }
 
-      function UseAutoDate(val){
+{% extends "base.html" %}
+
+{% block content %}
+<script type="text/javascript">
+  function CheckItem(val){
+    var element=document.getElementById('Item');
+    var element1=document.getElementById('regItem');
+    if(val=="Choose an Item"||val=="Other") {
+      element.style.display='block';
+      element.name="name";
+      element1.name="";
+    }
+    else {
+      element.style.display='none';
+      element.name=""
+      element1.name='name';
+    }
+  }
+
+  function CreateForm(val, action) {
+    var form = document.createElement("form");
+    var element1=document.getElementById(val + '1');
+    element1.name="quantity";
+    var element2=document.getElementById(val + '2');
+    element2.name="name";
+    form.method="POST";
+    form.action=action;
+    form.appendChild(element1);
+    form.appendChild(element2);
+    document.body.appendChild(form);
+    form.submit()
+  }
+
+  function EditValues(val) {
+    var element1=document.getElementById(val + '1');
+    var element2=document.getElementById(val + '2');
+    var element3=document.getElementById(val + '3');
+    element1.readOnly = !element1.readOnly;
+    element2.readOnly = !element2.readOnly;
+    element3.readOnly = !element3.readOnly;
+    if (!element1.readOnly) {
+      var element4=document.getElementById(val + '4');
+      element4.style.display="block"
+    }
+  }
+
+  function UseAutoDate(val){
     var element=document.getElementById('AD')
     var element1=document.getElementById('ExpirationDate')
     if (val=="Yes") {
@@ -30,53 +61,57 @@
       element1.name="expirationDate";
     }
   }
-    </script>
-  </head>
-  <body>
-  	<section class="hero is-primary is-fullheight">
-  	<div class="header has-text-centered has-text-weight-bold">
-      <h1><strong>Supershop</strong></h1>
+</script>
+
+<style>
+    .table {
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+</style>
+
+<div>
+<h1 class="has-text-centered is-size-1"><strong>Shopping List</strong></h1>
+<table class="table is-bordered" id="ItemTable">
+  <thead>
+    <tr>
+      <th>Quantity</th>
+      <th>Item</th>
+      <th>Expiration Date</th>
+      <th>Date Purchased</th>
+      <th>Save Changes</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+</table>
+</div>
+
+
+<div>
+  <h1 class="has-text-centered is-size-1"><strong>Add New Item</strong></h1>
+  <form action="/shoppinglist" method="POST">
+
+  <div class="field">
+    <label class="label">Item Name</label>
+    <div class="select is-medium">
+      <select name="name" id="regItem" onchange='CheckItem(this.value)'>
+        <option>Choose an Item</option>
+        <option value=apple>Apple</option>
+        <option value="Other">Other</option>
+      </select>
     </div>
-
-
     <div>
-    <table class="table is-bordered">
-      <thead>
-        <tr>
-          <th>Quantity</th>
-          <th>Item</th>
-          <th>Expiration Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>3</td>
-          <td>Apple</td>
-          <td>11/12/13</td>
-          <td><div class="has-text-centered"><button class="button is-primary">Edit</button></div></td>
-        </tr>
-      </tbody>
-    </table>
+      <input class="input" type="text" name="name" id="Item" placeholder="Item Name" style="display:none; "/>
     </div>
+  </div>
 
-        <div>
-    <h1 class="has-text-centered is-size-1"><strong>Add New Item</strong></h1>
+  <div class="field">
+    <label class="label" for="Quantity">Quantity</label>
+    <input class="input" type="number" name= "quantity" id="Quantity" step="1" min="0" max="100">
+  </div>
 
-    <div class="field">
-      <label class="label ">Item Name</label>
-      <div class="select is-medium">
-        <select name="Item" onchange='CheckItem(this.value)'>
-          <option>Choose an Item</option>
-          <option value=apple>Apple</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-      <div>
-        <input class="input" type="text" name="Item" id="Item" placeholder="Item Name" style="display:none; "/>
-      </div>
-    </div>
-
-    <div class="control">
+   <div class="control">
     <label class="label has-text-centered">Use Automatic Expiration Date</label>
     <label class="radio">
       <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="Yes">
@@ -95,8 +130,11 @@
   <div>
     <input type="date" name="expirationDate" id="ExpirationDate" style="display:none; "/>
   </div>
-    </div>
+
+  <div>
+    <input type="submit" class="button is-primary is-black" value="Add">
   </div>
-  	</section>
-  </body>
-</html>
+
+  </form>
+</div>
+{% endblock %}

@@ -25,24 +25,14 @@
     var element2=document.getElementById(val + '2');
     element2.name="name";
     form.method="POST";
+    var element3=document.getElementById(val + '3');
+    element3.name="hidden";
     form.action=action;
     form.appendChild(element1);
     form.appendChild(element2);
+    form.appendChild(element3);
     document.body.appendChild(form);
     form.submit()
-  }
-
-  function EditValues(val) {
-    var element1=document.getElementById(val + '1');
-    var element2=document.getElementById(val + '2');
-    var element3=document.getElementById(val + '3');
-    element1.readOnly = !element1.readOnly;
-    element2.readOnly = !element2.readOnly;
-    element3.readOnly = !element3.readOnly;
-    if (!element1.readOnly) {
-      var element4=document.getElementById(val + '4');
-      element4.style.display="block"
-    }
   }
 </script>
 
@@ -76,7 +66,8 @@
       <td><div class="has-text-centered"><input type="submit" class="button is-primary" value="Add"></div></td>
       </form>
       <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='CreateForm(this.value, "/shoppinglist/edit");'>Save</button></div></td>
-      <td><div class="has-text-centered"><button class="button is-primary" id="{{item.name}}4" value="{{item.name}}" onclick='CreateForm(this.value, "/shoppinglist/remove");'>Remove</button></div></td>
+      <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='CreateForm(this.value, "/shoppinglist/remove");'>Remove</button></div></td>
+      <input type="hidden" id="{{item.name}}3" name="hidden" value="{{item.name}}">
     </tr>
     {% endfor %}
   </tbody>
@@ -108,7 +99,7 @@
   </div>
 
   <div>
-    <input type="submit" class="button is-primary is-light" value="Add">
+    <input type="submit" class="button is-primary is-black" value="Add">
   </div>
   </form>
 </div>
