@@ -70,7 +70,7 @@
       </thead>
       <tbody>
         <tr>
-          <form action="/inventory.html" method="POST">
+          <form action="/inventory" method="POST">
           <td><input class="input" type="text" value="3" id="apple1" readonly></td>
           <td><input class="input" type="text" value="Apple" id="apple2" readonly></td>
           <td class="has-text-centered"><input class="input" type="text" value="11/12/13" id="apple3" readonly></td>
@@ -81,7 +81,7 @@
         </tr>
         {% for item in shoppinglist %}
         <tr>
-          <form action="/inventory.html" method="POST">
+          <form action="/inventory" method="POST">
           <td><input class="input" type="text" value="{{item.quantity}}" id="{{item.name}}1" readonly></td>
           <td><input class="input" type="text" value="{{item.name}}" id="{{item.name}}2" readonly></td>
           <td class="has-text-centered"><input class="input" type="text" value="{{item.expirationdate}}" id="{{item.name}}3" readonly></td>
@@ -98,7 +98,7 @@
 
     <div>
     <h1 class="has-text-centered is-size-1"><strong>Add New Item</strong></h1>
-    <form action="/shoppinglist.html" method="POST">
+    <form action="/shoppinglist" method="POST">
 
     <div class="field">
       <label class="label ">Item Name</label>
@@ -110,7 +110,7 @@
         </select>
       </div>
       <div>
-        <input class="input" type="text" name="item" id="Item" placeholder="Item Name" style="display:none; "/>
+        <input class="input" type="text" name="name" id="Item" placeholder="Item Name" style="display:none; "/>
       </div>
     </div>
 

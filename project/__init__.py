@@ -1,13 +1,16 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from firebase import firebase
 
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
+firebase = firebase.FirebaseApplication('https://supershop-53157-default-rtdb.firebaseio.com/', None)
 
 def create_app():
     app = Flask(__name__)
 
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     app.config['SQLALCHEMY_BINDS'] = {

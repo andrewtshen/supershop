@@ -3,6 +3,7 @@ from sqlalchemy import update, delete
 from flask_login import login_required, current_user
 
 from . import db
+from . import firebase
 
 main = Blueprint('main', __name__)
 
@@ -15,23 +16,72 @@ def index():
 def profile():
     return render_template(
             'profile.html',
-            name=current_user.name,
-            favorite_drink=current_user.favorite_drink,
-            is_set_favorite_drink=current_user.is_set_favorite_drink,
+            name=current_user.firstName,
+            id=current_user.id,
             )
 
-@main.route('/changeinfo', methods=['GET'])
+@main.route('/changeinfo', methods=['GET', 'POST'])
 @login_required
 def changeinfo():
-    return render_template(
-            'changeinfo.html',
+    return "Page is currently down"
+
+@main.route('/shoppinglist', methods=['GET', 'POST'])
+@login_required
+def shoppinglist():
+    if request.method == 'GET':
+        shoppinglist = firebase.get('/shoppinglist/'+str(current_user.id), None)
+
+        if shoppinglist:
+            return render_template(
+                'shoppinglist.html',
+                shoppinglist=shoppinglist,
+                )
+        else:
+            return render_template(
+                'shoppinglist.html'
+                )
+    else:
+        newitem = {
+            "name": request.form.get("name"),
+            "quantity": request.form.get("quantity"),
+            "expirationDate": request.form.get("expirationDate"),
+        }
+        ret = firebase.get('/shoppinglist/'+str(current_user.id), None)
+        firebase.post('shoppinglist/'+str(current_user.id), data=newitem)
+        return redirect(
+            url_for('main.profile')
             )
 
-@main.route('/changeinfo', methods=['POST'])
+
+    # if request.method == 'GET':
+    #     ret = firebase.get('/1', None)
+    #     if ret:
+    #         return ret
+    #     else:
+    #         return "Shopping list not found"
+    # else:
+    #     itemdata = dict(request.form)
+    #     isPurchased = False
+    #     name = itemdata.name
+    #     quantity = itemdata.quantity
+    #     newitem = {
+    #         "name": name,
+    #         "isPurchased": isPurchased,
+    #         "quantity": quantity,
+    #     }
+    #     firebase.push('/1', newitem)
+
+@main.route('/test')
 @login_required
-def changeinfo_post():
-    current_user.favorite_drink = request.form.get('favorite_drink')
-    current_user.is_set_favorite_drink = True
-    db.session.commit()
-    return redirect(url_for('main.profile'))
+def test():
+    isPurchased = False
+    name = "Oranges"
+    quantity = 8
+    newitem = {
+        "name": name,
+        "isPurchased": isPurchased,
+        "quantity": quantity,
+    }
+    ret = firebase.post('shoppinglist/item', data=newitem)
+    return ret
 

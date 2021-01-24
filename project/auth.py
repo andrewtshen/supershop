@@ -3,6 +3,7 @@ from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
+from . import firebase
 
 auth = Blueprint('auth', __name__)
 
@@ -36,7 +37,8 @@ def signup():
 @auth.route('/signup', methods=['POST'])
 def signup_post():
     email = request.form.get('email')
-    name = request.form.get('name')
+    firstName = request.form.get('firstName')
+    lastName = request.form.get('lastName')
     password = request.form.get('password')
 
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
@@ -46,11 +48,25 @@ def signup_post():
         return redirect(url_for('auth.signup'))
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'), favorite_drink="", is_set_favorite_drink=False)
+    new_user = User(
+        email=email,
+        firstName=firstName,
+        lastName=lastName,
+        password=generate_password_hash(password, method='sha256'),
+    )
+    firebase_user = {
+        "email": email,
+        "firstName": firstName,
+        "lastName": lastName,
+    }
 
     # add the new user to the database
     db.session.add(new_user)
     db.session.commit()
+
+    # add the new user to firebase
+    user = User.query.filter_by(email=email).first()
+    firebase.post('/users/'+str(user.id), data=firebase_user)
 
     return redirect(url_for('auth.login'))
 
