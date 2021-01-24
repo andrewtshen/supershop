@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+    Welcome, {{ name }}!
+</h1>
+
+<h2 class="subtitle">
+    Your ID is {{ id }}.
+</h2>
+
+<a class="button is-link is-outlined" href="{{ url_for('main.changeinfo') }}">Change Info</a>
+
+{% endblock %}
