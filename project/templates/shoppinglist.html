@@ -6,14 +6,16 @@
   function CheckItem(val){
     var element=document.getElementById('Item');
     var element1=document.getElementById('regItem');
-    if(val=="Choose an Item"||val=="Other")
+    if(val=="Choose an Item"||val=="Other") {
       element.style.display='block';
-      element1.name="";
       element.name="name";
-    else
+      element1.name="";
+    }
+    else {
       element.style.display='none';
-      element.name="";
-      element1.name="name";
+      element.name=""
+      element1.name='name';
+    }
   }
 
   function UseAutoDate(val){
@@ -101,7 +103,7 @@
       <select name="name" id="regItem" onchange='CheckItem(this.value)'>
         <option>Choose an Item</option>
         <option value=apple>Apple</option>
-        <option>Other</option>
+        <option value="Other">Other</option>
       </select>
     </div>
     <div>
