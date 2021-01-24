@@ -16,50 +16,7 @@
             <nav class="navbar">
 
                 <div class="container">
-                    <div class = "navbar-brand">
-                        <a href="{{ url_for('main.index') }}" class="navbar-item">
-                            Home
-                        </a>
-
-                        {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('main.profile') }}" class="navbar-item">
-                            Profile
-                        </a>
-                        {% endif %}
-
-                        {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('main.shoppinglist') }}" class="navbar-item">
-                            My Shopping List
-                        </a>
-                        {% endif %}
-
-                        {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('main.inventory') }}" class="navbar-item">
-                            Inventory
-                        </a>
-                        {% endif %}
-
-                        {% if not current_user.is_authenticated %}
-                        <a href="{{ url_for('auth.login') }}" class="navbar-item">
-                            Login
-                        </a>
-                        <a href="{{ url_for('auth.signup') }}" class="navbar-item">
-                            Sign Up
-                        </a>
-                        {% endif %}
-
-                        {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-                            Logout
-                        </a>
-                        {% endif %}
-                        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                            <span aria-hidden="true"></span>
-                            <span aria-hidden="true"></span>
-                            <span aria-hidden="true"></span>
-                        </a>
-                    </div>
-                    <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div id="navbarMenuHeroA" class="navbar-menu is-active">
                         <div class="navbar-end">
                             <a href="{{ url_for('main.index') }}" class="navbar-item">
                                 Home
