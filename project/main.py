@@ -1,3 +1,5 @@
+import json
+
 from flask import Blueprint, render_template, request, redirect, url_for
 from sqlalchemy import update, delete
 from flask_login import login_required, current_user
@@ -32,9 +34,9 @@ def shoppinglist():
     if request.method == 'GET':
         shoppinglist = firebase.get(shoppinglist_path+'/items', None)
 
-        print("DEBUG:", shoppinglist_path+'/items', shoppinglist)
         # If shoppinglist exists, display the current contents
         if shoppinglist:
+            print("DEBUG:", shoppinglist_path+'/items', json.dumps(shoppinglist))
             return render_template(
                 'shoppinglist.html',
                 shoppinglist=shoppinglist,
