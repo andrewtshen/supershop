@@ -1,186 +1,126 @@
-<!DOCTYPE html> <!--Make the inputs required -->
-<html>
-  <style>
-    .table {
-      margin-left:auto;
-      margin-right:auto;
+{% extends "base.html" %}
+
+{% block content %}
+<script type="text/javascript">
+  function CheckItem(val){
+    var element=document.getElementById('Item');
+    if(val=="Choose an Item"||val=="other")
+      element.style.display='block';
+    else
+      element.style.display='none';
+  }
+
+  function UseAutoDate(val){
+    var element=document.getElementById('AD')
+    var element1=document.getElementById('ExpirationDate')
+    if (val=="Yes") {
+      element.style.display='block';
+      element1.style.display='none';
     }
-  </style>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Super shop</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <script type="text/javascript"> 
-      function CheckItem(val){
-        var element=document.getElementById('Item');
-        if(val=="Choose an Item"||val=="other")
-          element.style.display='block';
-        else
-          element.style.display='none';
-      }
+    if (val=="No") {
+      element.style.display="none";
+      element1.style.display='block';
+    }
+  }
 
-      function UseAutoDate(val){
-        var element=document.getElementById('AD')
-        var element1=document.getElementById('ExpirationDate')
-        if (val=="Yes") {
-          element.style.display='block';
-          element1.style.display='none';
-        }
-        if (val=="No") {
-          element.style.display="none";
-          element1.style.display='block';
-        }
-      }
+  function EditValues(val) {
+    var element1=document.getElementById(val + '1');
+    var element2=document.getElementById(val + '2');
+    var element3=document.getElementById(val + '3');
+    element1.readOnly = !element1.readOnly;
+    element2.readOnly = !element2.readOnly;
+    element3.readOnly = !element3.readOnly;
+  }
+</script>
 
-      function EditValues(val) {
-        var element1=document.getElementById(val + '1');
-        var element2=document.getElementById(val + '2');
-        var element3=document.getElementById(val + '3');
-        element1.readOnly = !element1.readOnly;
-        element2.readOnly = !element2.readOnly;
-        element3.readOnly = !element3.readOnly;
-      }
-
-    </script>
-  </head>
-  <body>
-
-  <section class="hero is-primary is-fullheight">
-    <div class="hero-head">
-            <nav class="navbar">
-                <div class="container">
-
-                    <div id="navbarMenuHeroA" class="navbar-menu">
-                        <div class="navbar-end">
-                            <a href="{{ url_for('main.index') }}" class="navbar-item">
-                                Home
-                            </a>
-                            {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('main.profile') }}" class="navbar-item">
-                                Profile
-                            </a>
-                            {% endif %}
-
-                            {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('main.shoppinglist') }}" class="navbar-item">
-                                My Shopping List
-                            </a>
-                            {% endif %}
-
-                            {% if not current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.login') }}" class="navbar-item">
-                                Login
-                            </a>
-                            <a href="{{ url_for('auth.signup') }}" class="navbar-item">
-                                Sign Up
-                            </a>
-                            {% endif %}
-
-                            {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-                                Logout
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
+<div>
+<h1 class="has-text-centered is-size-1"><strong>Shopping List</strong></h1>
+<table class="table is-bordered" id="ItemTable">
+  <thead>
+    <tr>
+      <th>Quantity</th>
+      <th>Item</th>
+      <th>Expiration Date</th>
+      <th>Add to Inventory</th>
+      <th>Edit</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <form action="/inventory" method="POST">
+      <td><input class="input" type="text" value="3" id="apple1" readonly></td>
+      <td><input class="input" type="text" value="Apple" id="apple2" readonly></td>
+      <td class="has-text-centered"><input class="input" type="text" value="11/12/13" id="apple3" readonly></td>
+      <td><div class="has-text-centered"><input type="submit" class="button is-primary" value="Add"></div></td>
+      </form>
+      <td><div class="has-text-centered"><button class="button is-primary" value="apple" onclick='EditValues(this.value);'>Edit</button></div></td>
+      <td><div class="has-text-centered"><button class="button is-primary">Remove</button></div></td>
+    </tr>
+    {% for key, item in shoppinglist.items() %}
+    <tr>
+      <form action="/inventory" method="POST">
+      <td><input class="input" type="text" value="{{item.quantity}}" id="{{item.name}}1" readonly></td>
+      <td><input class="input" type="text" value="{{item.name}}" id="{{item.name}}2" readonly></td>
+      <td class="has-text-centered"><input class="input" type="text" value="{{item.expirationDate}}" id="{{item.name}}3" readonly></td>
+      <td><div class="has-text-centered"><input type="submit" class="button is-primary" value="Add"></div></td>
+      </form>
+      <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='EditValues(this.value);'>Edit</button></div></td>
+      <td><div class="has-text-centered"><input type="submit" class="button is-primary" value="Remove"></div></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
 
 
+<div>
+  <h1 class="has-text-centered is-size-1"><strong>Add New Item</strong></h1>
+  <form action="/shoppinglist" method="POST">
+
+  <div class="field">
+    <label class="label">Item Name</label>
+    <div class="select is-medium">
+      <select name="name" onchange='CheckItem(this.value)'>
+        <option>Choose an Item</option>
+        <option value=apple>Apple</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
     <div>
-    <h1 class="has-text-centered is-size-1"><strong>Shopping List</strong></h1>
-    <table class="table is-bordered" id="ItemTable">
-      <thead>
-        <tr>
-          <th>Quantity</th>
-          <th>Item</th>
-          <th>Expiration Date</th>
-          <th>Add to Inventory</th>
-          <th>Edit</th>
-          <th>Remove</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <form action="/inventory" method="POST">
-          <td><input class="input" type="text" value="3" id="apple1" readonly></td>
-          <td><input class="input" type="text" value="Apple" id="apple2" readonly></td>
-          <td class="has-text-centered"><input class="input" type="text" value="11/12/13" id="apple3" readonly></td>
-          <td><div class="has-text-centered"><input type="submit" class="button is-primary" value="Add"></div></td>
-          </form>
-          <td><div class="has-text-centered"><button class="button is-primary" value="apple" onclick='EditValues(this.value);'>Edit</button></div></td>
-          <td><div class="has-text-centered"><button class="button is-primary">Remove</button></div></td>
-        </tr>
-        {% for key, item in shoppinglist.items() %}
-        <tr>
-          <form action="/inventory" method="POST">
-          <td><input class="input" type="text" value="{{item.quantity}}" id="{{item.name}}1" readonly></td>
-          <td><input class="input" type="text" value="{{item.name}}" id="{{item.name}}2" readonly></td>
-          <td class="has-text-centered"><input class="input" type="text" value="{{item.expirationDate}}" id="{{item.name}}3" readonly></td>
-          <td><div class="has-text-centered"><input type="submit" class="button is-primary" value="Add"></div></td>
-          </form>
-          <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='EditValues(this.value);'>Edit</button></div></td>
-          <td><div class="has-text-centered"><input type="submit" class="button is-primary" value="Remove"></div></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    </div>
-
-
-    <div>
-    <h1 class="has-text-centered is-size-1"><strong>Add New Item</strong></h1>
-    <form action="/shoppinglist" method="POST">
-
-    <div class="field">
-      <label class="label">Item Name</label>
-      <div class="select is-medium">
-        <select name="name" onchange='CheckItem(this.value)'>
-          <option>Choose an Item</option>
-          <option value=apple>Apple</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-      <div>
-        <input class="input" type="text" name="name" id="Item" placeholder="Item Name" style="display:none; "/>
-      </div>
-    </div>
-
-    <div class="field">
-      <label class="label" for="Quantity">Quantity</label>
-      <input class="input" type="number" name= "quantity" id="Quantity" step="1" min="0" max="100">
-    </div>
-
-
-    <div class="control">
-      <label class="label">Use Automatic Expiration Date</label>
-      <label class="radio">
-        <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="Yes">
-        Yes
-      </label>
-      <label class="radio">
-        <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="No">
-        No
-      </label>
-    </div>
-
-    <div>
-      <input type="date" name="expirationDate" id="AD" style="display:none;" value="2011-09-29" readonly />
-    </div>
-
-    <div>
-      <input type="date" name="expirationDate" id="ExpirationDate" style="display:none; "/>
-    </div>
-
-      <div>
-        <input type="submit" class="button is-primary is-light" value="Add">
-      </div>
-    </form>
+      <input class="input" type="text" name="name" id="Item" placeholder="Item Name" style="display:none; "/>
     </div>
   </div>
 
-  </section>
-  </body>
-</html>
+  <div class="field">
+    <label class="label" for="Quantity">Quantity</label>
+    <input class="input" type="number" name= "quantity" id="Quantity" step="1" min="0" max="100">
+  </div>
+
+
+  <div class="control">
+    <label class="label">Use Automatic Expiration Date</label>
+    <label class="radio">
+      <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="Yes">
+      Yes
+    </label>
+    <label class="radio">
+      <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="No">
+      No
+    </label>
+  </div>
+
+  <div>
+    <input type="date" name="expirationDate" id="AD" style="display:none;" value="2011-09-29" readonly />
+  </div>
+
+  <div>
+    <input type="date" name="expirationDate" id="ExpirationDate" style="display:none; "/>
+  </div>
+
+    <div>
+      <input type="submit" class="button is-primary is-light" value="Add">
+    </div>
+  </form>
+</div>
+{% endblock %}
