@@ -113,12 +113,12 @@
           <td><div class="has-text-centered"><button class="button is-primary" value="apple" onclick='EditValues(this.value);'>Edit</button></div></td>
           <td><div class="has-text-centered"><button class="button is-primary">Remove</button></div></td>
         </tr>
-        {% for item in shoppinglist %}
+        {% for key,value in shoppinglist.items() %}
         <tr>
           <form action="/inventory" method="POST">
-          <td><input class="input" type="text" value="{{item.quantity}}" id="{{item.name}}1" readonly></td>
-          <td><input class="input" type="text" value="{{item.name}}" id="{{item.name}}2" readonly></td>
-          <td class="has-text-centered"><input class="input" type="text" value="{{item.expirationdate}}" id="{{item.name}}3" readonly></td>
+          <td><input class="input" type="text" value="{{quantity.value}}" id="{{name.value}}1" readonly></td>
+          <td><input class="input" type="text" value="{{name.value}}" id="{{name.value}}2" readonly></td>
+          <td class="has-text-centered"><input class="input" type="text" value="{{expirationDate.value}}" id="{{name.value}}3" readonly></td>
           <td><div class="has-text-centered"><input type="submit" class="button is-primary" value="Add"></div></td>
           </form>
           <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='EditValues(this.value);'>Edit</button></div></td>
@@ -137,7 +137,7 @@
     <div class="field">
       <label class="label">Item Name</label>
       <div class="select is-medium">
-        <select name="Item" onchange='CheckItem(this.value)'>
+        <select name="name" onchange='CheckItem(this.value)'>
           <option>Choose an Item</option>
           <option value=apple>Apple</option>
           <option value="other">Other</option>
