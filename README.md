@@ -24,17 +24,33 @@ Super Shopping or something
 json file format
 
 data = {
-  "shoppinglist": {
-    item: {
-      "name": null,
-      "quantity": null,
-      "expirationDate": 20210123,
+  "users": {
+    "id": {
+      "email": email@email.com,
+      "firstName": "John",
+      "lastName": "Smith",
+      "groups": {
+         "groupid": 0,
+         "groupid1": 1,
+      },
     },
-    item1: ...
   }
-  "inventory": {
-    "item": ...
-    "item1": ...
+
+  "shoppinglists": {
+    "shoppinglist_id": {
+      item: {
+        "name": null,
+        "quantity": null,
+        "expirationDate": 20210123,
+      },
+      item1: {...},
+    }
+  }
+  "inventories": {
+    "inventory_id": {
+      "item": {...},
+      "item1": {...},
+    }
   }
 }
 ```
