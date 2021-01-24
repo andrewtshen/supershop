@@ -28,8 +28,9 @@ def changeinfo():
 @main.route('/shoppinglist', methods=['GET', 'POST'])
 @login_required
 def shoppinglist():
+    personal_shoppinglist = '/shoppinglist/'+str(current_user.id)
     if request.method == 'GET':
-        shoppinglist = firebase.get('/shoppinglist/'+str(current_user.id), None)
+        shoppinglist = firebase.get(personal_shoppinglist, None)
 
         if shoppinglist:
             return render_template(
@@ -46,8 +47,8 @@ def shoppinglist():
             "quantity": request.form.get("quantity"),
             "expirationDate": request.form.get("expirationDate"),
         }
-        ret = firebase.get('/shoppinglist/'+str(current_user.id), None)
-        firebase.post('shoppinglist/'+str(current_user.id), data=newitem)
+        ret = firebase.get(personal_shoppinglist, None)
+        firebase.post(personal_shoppinglist, data=newitem)
         return redirect(
             url_for('main.shoppinglist')
             )
