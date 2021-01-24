@@ -18,36 +18,16 @@
     }
   }
 
-  function UseAutoDate(val){
-    var element=document.getElementById('AD')
-    var element1=document.getElementById('ExpirationDate')
-    if (val=="Yes") {
-      element.style.display='block';
-      element.name="expirationDate";
-      element1.style.display='none';
-      element1.name="";
-    }
-    if (val=="No") {
-      element.style.display="none";
-      element.name="";
-      element1.style.display='block';
-      element1.name="expirationDate";
-    }
-  }
-
   function CreateForm(val, action) {
     var form = document.createElement("form");
     var element1=document.getElementById(val + '1');
     element1.name="quantity";
     var element2=document.getElementById(val + '2');
     element2.name="name";
-    var element3=document.getElementById(val + '3');
-    element3.name="expirationDate";
     form.method="POST";
     form.action=action;
     form.appendChild(element1);
     form.appendChild(element2);
-    form.appendChild(element3);
     document.body.appendChild(form);
     form.submit()
   }
@@ -71,6 +51,7 @@
       margin-left:auto;
       margin-right:auto;
     }
+
 </style>
 
 <div>
@@ -80,9 +61,8 @@
     <tr>
       <th>Quantity</th>
       <th>Item</th>
-      <th>Expiration Date</th>
       <th>Add to Inventory</th>
-      <th>Edit</th>
+      <th>Save Changes</th>
       <th>Remove</th>
     </tr>
   </thead>
@@ -91,14 +71,12 @@
     {% for key, item in shoppinglist.items() %}
     <tr>
       <form action="/inventory" method="POST">
-      <td><input class="input" type="number" step="1" min="0" max="100" value="{{item.quantity}}" id="{{item.name}}1" readonly></td>
-      <td><input class="input" type="text" value="{{item.name}}" id="{{item.name}}2" readonly></td>
-      <td class="has-text-centered"><input class="input" type="date" value="{{item.expirationDate}}" id="{{item.name}}3" readonly></td>
+      <td><input class="input" type="number" step="1" min="0" max="100" value="{{item.quantity}}" id="{{item.name}}1"></td>
+      <td><input class="input" type="text" value="{{item.name}}" id="{{item.name}}2"></td>
       <td><div class="has-text-centered"><input type="submit" class="button is-primary" value="Add"></div></td>
       </form>
-      <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='EditValues(this.value);'>Edit</button></div></td>
+      <td><div class="has-text-centered"><button class="button is-primary" value="{{item.name}}" onclick='CreateForm(this.value, "/shoppinglist/edit");'>Save</button></div></td>
       <td><div class="has-text-centered"><button class="button is-primary" id="{{item.name}}4" value="{{item.name}}" onclick='CreateForm(this.value, "/shoppinglist/remove");'>Remove</button></div></td>
-      <td><div class="has-text-centered"><button class="button is-primary" id="{{item.name}}4" value="{{item.name}}" style="display:none;" onclick='CreateForm(this.value, "/shoppinglist/edit");'>Done</button></div></td>
     </tr>
     {% endfor %}
   </tbody>
@@ -127,27 +105,6 @@
   <div class="field">
     <label class="label" for="Quantity">Quantity</label>
     <input class="input" type="number" name= "quantity" id="Quantity" step="1" min="0" max="100">
-  </div>
-
-
-  <div class="control">
-    <label class="label">Use Automatic Expiration Date</label>
-    <label class="radio">
-      <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="Yes">
-      Yes
-    </label>
-    <label class="radio">
-      <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="No">
-      No
-    </label>
-  </div>
-
-  <div>
-    <input type="date" name="expirationDate" id="AD" style="display:none;" value="2011-09-29" readonly />
-  </div>
-
-  <div>
-    <input type="date" name="expirationDate" id="ExpirationDate" style="display:none; "/>
   </div>
 
   <div>

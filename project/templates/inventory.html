@@ -15,17 +15,21 @@
       }
 
       function UseAutoDate(val){
-        var element=document.getElementById('AD')
-        var element1=document.getElementById('ExpirationDate')
-        if (val=="Yes") {
-          element.style.display='block';
-          element1.style.display='none';
-        }
-        if (val=="No") {
-          element.style.display="none";
-          element1.style.display='block';
-        }
-      }
+    var element=document.getElementById('AD')
+    var element1=document.getElementById('ExpirationDate')
+    if (val=="Yes") {
+      element.style.display='block';
+      element.name="expirationDate";
+      element1.style.display='none';
+      element1.name="";
+    }
+    if (val=="No") {
+      element.style.display="none";
+      element.name="";
+      element1.style.display='block';
+      element1.name="expirationDate";
+    }
+  }
     </script>
   </head>
   <body>
@@ -73,28 +77,24 @@
     </div>
 
     <div class="control">
-      <label class="label">Use Automatic Expiration Date</label>
-      <label class="radio">
-        <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="Yes">
-        Yes
-      </label>
-      <label class="radio">
-        <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="No">
-        No
-      </label>
-    </div>
+    <label class="label has-text-centered">Use Automatic Expiration Date</label>
+    <label class="radio">
+      <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="Yes">
+      Yes
+    </label>
+    <label class="radio">
+      <input type="radio" name="AutoDate" onclick='UseAutoDate(this.value);' value="No">
+      No
+    </label>
+  </div>
 
-    <div>
-      <p id="AD" style="display:none;">Expiration Date: 11/12/13</p>
-    </div>
+  <div>
+    <input type="date" name="expirationDate" id="AD" style="display:none;" value="2011-09-29" readonly />
+  </div>
 
-    <div>
-      <input type="date" name="Expiration Date" id="ExpirationDate" style="display:none; "/>
-    </div>
-
-      <div>
-        <button class="button is-primary is-light">Add</button>
-      </div>
+  <div>
+    <input type="date" name="expirationDate" id="ExpirationDate" style="display:none; "/>
+  </div>
     </div>
   </div>
   	</section>
